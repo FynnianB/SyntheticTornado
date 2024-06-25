@@ -8,7 +8,8 @@
 
 OpenGLDisplayWidget::OpenGLDisplayWidget(QWidget *parent)
     : QOpenGLWidget(parent),
-      distanceToCamera(-8.0)
+      distanceToCamera(-8.0),
+      currentSlice(0)
 {
     setFocusPolicy(Qt::StrongFocus);
 }
@@ -147,11 +148,27 @@ void OpenGLDisplayWidget::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() == Qt::Key_Up)
     {
-        // Do stuff...
+        moveSlice(1);
     }
     else if (e->key() == Qt::Key_Down)
     {
-        // Do stuff...
+        moveSlice(-1);
+    }
+    else if (e->key() == Qt::Key_X)
+    {
+        changeWindComponent(0);
+    }
+    else if (e->key() == Qt::Key_Y)
+    {
+        changeWindComponent(1);
+    }
+    else if (e->key() == Qt::Key_Z)
+    {
+        changeWindComponent(2);
+    }
+    else if (e->key() == Qt::Key_M)
+    {
+        changeWindComponent(3);
     }
     else
     {
@@ -179,6 +196,27 @@ void OpenGLDisplayWidget::updateMVPMatrix()
     mvpMatrix = projectionMatrix * mvMatrix;
 }
 
+void OpenGLDisplayWidget::moveSlice(int steps)
+{
+    int newSlice = currentSlice + steps;
+    if (newSlice >= 0 && newSlice < 16) {
+        currentSlice = newSlice;
+        sliceFilter->setSlice(currentSlice);
+        sliceRenderer->updateImage();
+        sliceRenderer->initImageGeometry(currentSlice);
+    }
+}
+
+void OpenGLDisplayWidget::changeWindComponent(int ic)
+{
+    if (ic >= 0 && ic <= 3) {
+        currentWindComponent = ic;
+        sliceFilter->setWindComponent(currentWindComponent);
+        sliceRenderer->updateImage();
+        sliceRenderer->initImageGeometry(currentSlice);
+    }
+}
+
 
 void OpenGLDisplayWidget::initVisualizationPipeline()
 {
@@ -191,7 +229,7 @@ void OpenGLDisplayWidget::initVisualizationPipeline()
     // Initialize filter modules.
     sliceFilter = new CartesianGridToHorizontalSliceFilter();
     sliceFilter->setDataSource(dataSource);
-    sliceFilter->setSlice(10);
+    sliceFilter->setSlice(0);
     sliceFilter->setWindComponent(0);
 
     // Initialize mapper modules.

@@ -19,10 +19,11 @@ public:
 
     void setMapper(HorizontalSliceToImageMapper *mapper);
     void drawImage(QMatrix4x4 mvpMatrix);
+    void updateImage();
+    void initImageGeometry(int currentSlice);
 
 private:
     void initOpenGLShaders();
-    void initImageGeometry();
 
     HorizontalSliceToImageMapper *sliceMapper;
 

@@ -6,7 +6,7 @@ HorizontalSliceRenderer::HorizontalSliceRenderer()
     texture(nullptr)
 {
     initOpenGLShaders();
-    initImageGeometry();
+    initImageGeometry(0);
 }
 
 HorizontalSliceRenderer::~HorizontalSliceRenderer()
@@ -19,9 +19,12 @@ HorizontalSliceRenderer::~HorizontalSliceRenderer()
     }
 }
 
-void HorizontalSliceRenderer::setMapper(HorizontalSliceToImageMapper *mapper)
+void HorizontalSliceRenderer::updateImage()
 {
-    sliceMapper = mapper;
+    if (texture) {
+        texture->destroy();
+        delete texture;
+    }
 
     QImage image = sliceMapper->mapSliceToImage();
 
@@ -29,6 +32,12 @@ void HorizontalSliceRenderer::setMapper(HorizontalSliceToImageMapper *mapper)
     texture->create();
     texture->setWrapMode(QOpenGLTexture::ClampToEdge);
     texture->setData(image);
+}
+
+void HorizontalSliceRenderer::setMapper(HorizontalSliceToImageMapper *mapper)
+{
+    sliceMapper = mapper;
+    updateImage();
 }
 
 void HorizontalSliceRenderer::initOpenGLShaders()
@@ -57,15 +66,16 @@ void HorizontalSliceRenderer::initOpenGLShaders()
     }
 }
 
-void HorizontalSliceRenderer::initImageGeometry()
+void HorizontalSliceRenderer::initImageGeometry(int currentSlice)
 {
+    float fz = currentSlice / 15.0f;
     // Vertices of a unit cube that represents the bounding box.
     const float vertices[] = {
         // Positionen          // Texturkoordinaten
-        0.0f, 0.0f, 0.0f,       0.0f, 0.0f, // links unten
-        1.0f, 0.0f, 0.0f,       1.0f, 0.0f, // rechts unten
-        1.0f, 0.0f, 1.0f,       1.0f, 1.0f, // rechts oben
-        0.0f, 0.0f, 1.0f,       0.0f, 1.0f,  // links oben
+        0.0f, fz, 0.0f,       0.0f, 0.0f, // links unten
+        1.0f, fz, 0.0f,       1.0f, 0.0f, // rechts unten
+        1.0f, fz, 1.0f,       1.0f, 1.0f, // rechts oben
+        0.0f, fz, 1.0f,       0.0f, 1.0f,  // links oben
     };
 
     // Create vertex buffer and upload vertex data to buffer.
@@ -107,7 +117,7 @@ void HorizontalSliceRenderer::drawImage(QMatrix4x4 mvpMatrix)
     shaderProgram.setUniformValue("colorMappingTexture", textureUnit);
 
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
-    f->glDrawArrays(GL_TRIANGLE_STRIP, 0, 6);
+    f->glDrawArrays(GL_TRIANGLE_FAN, 0, 4);
 
     vertexArrayObject.release();
     shaderProgram.release();

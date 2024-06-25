@@ -60,6 +60,11 @@ private:
     // Initialize the pipeline (create instances of data source, mapping,
     // rendering etc. modules and connect them).
     void initVisualizationPipeline();
+
+    int currentSlice;
+    void moveSlice(int steps);
+    int currentWindComponent;
+    void changeWindComponent(int ic);
 };
 
 #endif // OPENGLDISPLAYWIDGET_H
