@@ -84,7 +84,7 @@ void OpenGLDisplayWidget::paintGL()
 
     // Call renderer modules.
     bboxRenderer->drawBoundingBox(mvpMatrix);
-    // ....
+    sliceRenderer->drawImage(mvpMatrix);
 }
 
 
@@ -200,8 +200,6 @@ void OpenGLDisplayWidget::initVisualizationPipeline()
 
     // Initialize rendering modules.
     sliceRenderer = new HorizontalSliceRenderer();
-    sliceRenderer->setImageMapper(sliceMapper);
+    sliceRenderer->setMapper(sliceMapper);
     bboxRenderer = new DataVolumeBoundingBoxRenderer();
-
-    sliceMapper->mapSliceToImage();
 }

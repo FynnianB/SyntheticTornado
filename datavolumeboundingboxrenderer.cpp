@@ -14,6 +14,7 @@ DataVolumeBoundingBoxRenderer::DataVolumeBoundingBoxRenderer()
 
 DataVolumeBoundingBoxRenderer::~DataVolumeBoundingBoxRenderer()
 {
+    vertexArrayObject.destroy();
     vertexBuffer.destroy();
 }
 

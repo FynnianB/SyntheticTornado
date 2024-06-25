@@ -1,6 +1,9 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource>
-    <file>lines_fshader.glsl</file>
-    <file>lines_vshader.glsl</file>
-</qresource>
+<RCC>
+    <qresource prefix="/">
+        <file>lines_fshader.glsl</file>
+        <file>lines_vshader.glsl</file>
+        <file>uhhlogo.png</file>
+        <file>texture_fshader.glsl</file>
+        <file>texture_vshader.glsl</file>
+    </qresource>
 </RCC>
