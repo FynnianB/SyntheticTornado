@@ -1,0 +1,6 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource>
+    <file>lines_fshader.glsl</file>
+    <file>lines_vshader.glsl</file>
+</qresource>
+</RCC>
