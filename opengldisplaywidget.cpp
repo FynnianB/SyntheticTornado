@@ -23,6 +23,8 @@ OpenGLDisplayWidget::~OpenGLDisplayWidget()
     delete sliceFilter;
     delete sliceMapper;
     delete sliceRenderer;
+    delete contourMapper;
+    delete contourRenderer;
 }
 
 
@@ -86,6 +88,7 @@ void OpenGLDisplayWidget::paintGL()
     // Call renderer modules.
     bboxRenderer->drawBoundingBox(mvpMatrix);
     sliceRenderer->drawImage(mvpMatrix);
+    contourRenderer->drawContourLines(mvpMatrix);
 }
 
 
@@ -204,6 +207,7 @@ void OpenGLDisplayWidget::moveSlice(int steps)
         sliceFilter->setSlice(currentSlice);
         sliceRenderer->updateImage();
         sliceRenderer->initImageGeometry(currentSlice);
+        contourRenderer->updateLines();
     }
 }
 
@@ -213,7 +217,7 @@ void OpenGLDisplayWidget::changeWindComponent(int ic)
         currentWindComponent = ic;
         sliceFilter->setWindComponent(currentWindComponent);
         sliceRenderer->updateImage();
-        sliceRenderer->initImageGeometry(currentSlice);
+        contourRenderer->updateLines();
     }
 }
 
@@ -235,9 +239,13 @@ void OpenGLDisplayWidget::initVisualizationPipeline()
     // Initialize mapper modules.
     sliceMapper = new HorizontalSliceToImageMapper();
     sliceMapper->setSliceFilter(sliceFilter);
+    contourMapper = new HorizontalSliceToContourLineMapper();
+    contourMapper->setSliceFilter(sliceFilter);
 
     // Initialize rendering modules.
     sliceRenderer = new HorizontalSliceRenderer();
     sliceRenderer->setMapper(sliceMapper);
+    contourRenderer = new HorizontalContourLinesRenderer();
+    contourRenderer->setMapper(contourMapper);
     bboxRenderer = new DataVolumeBoundingBoxRenderer();
 }

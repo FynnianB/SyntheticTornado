@@ -5,5 +5,7 @@
         <file>uhhlogo.png</file>
         <file>texture_fshader.glsl</file>
         <file>texture_vshader.glsl</file>
+        <file>simple_fshader.glsl</file>
+        <file>simple_vshader.glsl</file>
     </qresource>
 </RCC>

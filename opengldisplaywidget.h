@@ -7,6 +7,8 @@
 #include "cartesiangridtohorizontalslicefilter.h"
 #include "horizontalslicetoimagemapper.h"
 #include "horizontalslicerenderer.h"
+#include "horizontalslicetocontourlinemapper.h"
+#include "horizontalcontourlinesrenderer.h"
 
 
 class OpenGLDisplayWidget : public QOpenGLWidget
@@ -56,6 +58,8 @@ private:
     CartesianGridToHorizontalSliceFilter *sliceFilter;
     HorizontalSliceToImageMapper *sliceMapper;
     HorizontalSliceRenderer *sliceRenderer;
+    HorizontalSliceToContourLineMapper *contourMapper;
+    HorizontalContourLinesRenderer *contourRenderer;
 
     // Initialize the pipeline (create instances of data source, mapping,
     // rendering etc. modules and connect them).

@@ -26,7 +26,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     cartesiangridtohorizontalslicefilter.cpp \
     flowdatasource.cpp \
+    horizontalcontourlinesrenderer.cpp \
     horizontalslicerenderer.cpp \
+    horizontalslicetocontourlinemapper.cpp \
     horizontalslicetoimagemapper.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -36,7 +38,9 @@ SOURCES += \
 HEADERS += \
     cartesiangridtohorizontalslicefilter.h \
     flowdatasource.h \
+    horizontalcontourlinesrenderer.h \
     horizontalslicerenderer.h \
+    horizontalslicetocontourlinemapper.h \
     horizontalslicetoimagemapper.h \
     mainwindow.h \
     opengldisplaywidget.h \

@@ -15,6 +15,7 @@ public:
 
     int getSizeX() const { return sizeX; }
     int getSizeY() const { return sizeY; }
+    int getSliceIndex() const { return sliceIndex; }
 
 private:
     FlowDataSource *dataSource;
