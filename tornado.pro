@@ -30,6 +30,8 @@ SOURCES += \
     horizontalslicerenderer.cpp \
     horizontalslicetocontourlinemapper.cpp \
     horizontalslicetoimagemapper.cpp \
+    horizontalslicetostreamlinemapper.cpp \
+    horizontalstreamlinerenderer.cpp \
     main.cpp \
     mainwindow.cpp \
     opengldisplaywidget.cpp \
@@ -42,6 +44,8 @@ HEADERS += \
     horizontalslicerenderer.h \
     horizontalslicetocontourlinemapper.h \
     horizontalslicetoimagemapper.h \
+    horizontalslicetostreamlinemapper.h \
+    horizontalstreamlinerenderer.h \
     mainwindow.h \
     opengldisplaywidget.h \
     datavolumeboundingboxrenderer.h \

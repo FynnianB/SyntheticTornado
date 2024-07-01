@@ -14,7 +14,7 @@ void FlowDataSource::createData(int time) {
 float FlowDataSource::getDataValue(int iz, int iy, int ix, int ic) {
     if (iz >= 0 && iz < zs && iy >= 0 && iy < ys &&
         ix >= 0 && ix < xs && ic >= 0 && ic < 3) {
-        return cartesianDataGrid[index(iz, iy, ix, ic)];
+        return cartesianDataGrid[index(iz, ix, iy, ic)];
     }
     return 0.0f; // Fehlerwert
 }

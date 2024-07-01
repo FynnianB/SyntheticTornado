@@ -71,12 +71,16 @@ void DataVolumeBoundingBoxRenderer::initOpenGLShaders()
 void DataVolumeBoundingBoxRenderer::initBoundingBoxGeometry()
 {
     // Vertices of a unit cube that represents the bounding box.
-    const unsigned int numVertices = 16;
+    // const unsigned int numVertices = 16;
+    // float unitCubeVertices[numVertices][3] = {
+    //     {0, 0, 0}, {1, 0, 0}, {1, 1, 0}, {0, 1, 0},
+    //     {0, 0, 0}, {0, 0, 1}, {1, 0, 1}, {1, 0, 0},
+    //     {1, 0, 1}, {1, 1, 1}, {1, 1, 0}, {1, 1, 1},
+    //     {0, 1, 1}, {0, 1, 0}, {0, 1, 1}, {0, 0, 1}};
+    const unsigned int numVertices = 7;
     float unitCubeVertices[numVertices][3] = {
-        {0, 0, 0}, {1, 0, 0}, {1, 1, 0}, {0, 1, 0},
-        {0, 0, 0}, {0, 0, 1}, {1, 0, 1}, {1, 0, 0},
-        {1, 0, 1}, {1, 1, 1}, {1, 1, 0}, {1, 1, 1},
-        {0, 1, 1}, {0, 1, 0}, {0, 1, 1}, {0, 0, 1}};
+        {0, 0, 0}, {1, 0, 0}, {0, 0, 0}, {0, 1, 0},
+        {0, 0, 0}, {0, 0, 1}, {0, 0, 0}};
 
     // Create vertex buffer and upload vertex data to buffer.
     vertexBuffer.create(); // make sure to destroy in destructor!

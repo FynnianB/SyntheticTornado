@@ -7,5 +7,5 @@ uniform sampler2D colorMappingTexture;
 
 void main()
 {
-    fragColor = texture(colorMappingTexture, fragTextureCoord);
+    fragColor = texture(colorMappingTexture, fragTextureCoord); // Maybe color animation, change of scala
 }

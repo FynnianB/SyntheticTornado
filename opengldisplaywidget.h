@@ -2,6 +2,7 @@
 #define OPENGLDISPLAYWIDGET_H
 
 #include <QOpenGLWidget>
+#include <QTimer>
 #include "datavolumeboundingboxrenderer.h"
 #include "flowdatasource.h"
 #include "cartesiangridtohorizontalslicefilter.h"
@@ -9,6 +10,8 @@
 #include "horizontalslicerenderer.h"
 #include "horizontalslicetocontourlinemapper.h"
 #include "horizontalcontourlinesrenderer.h"
+#include "horizontalslicetostreamlinemapper.h"
+#include "horizontalstreamlinerenderer.h"
 
 
 class OpenGLDisplayWidget : public QOpenGLWidget
@@ -60,6 +63,8 @@ private:
     HorizontalSliceRenderer *sliceRenderer;
     HorizontalSliceToContourLineMapper *contourMapper;
     HorizontalContourLinesRenderer *contourRenderer;
+    HorizontalSliceToStreamlineMapper *streamlineMapper;
+    HorizontalStreamlineRenderer *streamlineRenderer;
 
     // Initialize the pipeline (create instances of data source, mapping,
     // rendering etc. modules and connect them).
@@ -69,6 +74,9 @@ private:
     void moveSlice(int steps);
     int currentWindComponent;
     void changeWindComponent(int ic);
+    int timestamp;
+    void updateTimestamp(int time);
+    void nextTimestamp();
 };
 
 #endif // OPENGLDISPLAYWIDGET_H

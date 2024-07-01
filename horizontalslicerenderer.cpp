@@ -68,7 +68,7 @@ void HorizontalSliceRenderer::initOpenGLShaders()
 
 void HorizontalSliceRenderer::initImageGeometry(int currentSlice)
 {
-    float fz = currentSlice / 15.0f;
+    float fz = currentSlice * 0.1f;
     // Vertices of a unit cube that represents the bounding box.
     const float vertices[] = {
         // Positionen          // Texturkoordinaten

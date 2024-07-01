@@ -9,7 +9,8 @@
 OpenGLDisplayWidget::OpenGLDisplayWidget(QWidget *parent)
     : QOpenGLWidget(parent),
       distanceToCamera(-8.0),
-      currentSlice(0)
+      currentSlice(0),
+      timestamp(0)
 {
     setFocusPolicy(Qt::StrongFocus);
 }
@@ -18,6 +19,8 @@ OpenGLDisplayWidget::OpenGLDisplayWidget(QWidget *parent)
 OpenGLDisplayWidget::~OpenGLDisplayWidget()
 {
     // Clean up visualization pipeline.
+    makeCurrent();
+
     delete bboxRenderer;
     delete dataSource;
     delete sliceFilter;
@@ -25,6 +28,10 @@ OpenGLDisplayWidget::~OpenGLDisplayWidget()
     delete sliceRenderer;
     delete contourMapper;
     delete contourRenderer;
+    delete streamlineMapper;
+    delete streamlineRenderer;
+
+    doneCurrent();
 }
 
 
@@ -59,6 +66,8 @@ void OpenGLDisplayWidget::initializeGL()
     QOpenGLFunctions *f = QOpenGLContext::currentContext()->functions();
     f->glClearColor(0, 0, 0, 1);
     f->glEnable(GL_DEPTH_TEST);
+    f->glEnable(GL_BLEND);
+    f->glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Our own initialization of the visualization pipeline.
     initVisualizationPipeline();
@@ -88,7 +97,8 @@ void OpenGLDisplayWidget::paintGL()
     // Call renderer modules.
     bboxRenderer->drawBoundingBox(mvpMatrix);
     sliceRenderer->drawImage(mvpMatrix);
-    contourRenderer->drawContourLines(mvpMatrix);
+    // contourRenderer->drawContourLines(mvpMatrix);
+    streamlineRenderer->drawStreamlines(mvpMatrix);
 }
 
 
@@ -173,6 +183,14 @@ void OpenGLDisplayWidget::keyPressEvent(QKeyEvent *e)
     {
         changeWindComponent(3);
     }
+    else if (e->key() == Qt::Key_C)
+    {
+        updateTimestamp(timestamp - 1);
+    }
+    else if (e->key() == Qt::Key_V)
+    {
+        updateTimestamp(timestamp + 1);
+    }
     else
     {
         return;
@@ -207,7 +225,7 @@ void OpenGLDisplayWidget::moveSlice(int steps)
         sliceFilter->setSlice(currentSlice);
         sliceRenderer->updateImage();
         sliceRenderer->initImageGeometry(currentSlice);
-        contourRenderer->updateLines();
+        // contourRenderer->updateLines();
     }
 }
 
@@ -217,8 +235,23 @@ void OpenGLDisplayWidget::changeWindComponent(int ic)
         currentWindComponent = ic;
         sliceFilter->setWindComponent(currentWindComponent);
         sliceRenderer->updateImage();
-        contourRenderer->updateLines();
+        // contourRenderer->updateLines();
     }
+}
+
+void OpenGLDisplayWidget::updateTimestamp(int time)
+{
+    timestamp = time;
+    dataSource->createData(timestamp);
+    sliceRenderer->updateImage();
+    // contourRenderer->updateLines();
+    streamlineRenderer->updateLines();
+    update();
+}
+
+void OpenGLDisplayWidget::nextTimestamp()
+{
+    updateTimestamp(timestamp + 1);
 }
 
 
@@ -227,8 +260,8 @@ void OpenGLDisplayWidget::initVisualizationPipeline()
     // Initialize the visualization pipeline:
 
     // Initialize data source(s).
-    dataSource = new FlowDataSource(16, 16, 16);
-    dataSource->createData(1);
+    dataSource = new FlowDataSource(100, 100, 100);
+    dataSource->createData(timestamp);
 
     // Initialize filter modules.
     sliceFilter = new CartesianGridToHorizontalSliceFilter();
@@ -241,11 +274,19 @@ void OpenGLDisplayWidget::initVisualizationPipeline()
     sliceMapper->setSliceFilter(sliceFilter);
     contourMapper = new HorizontalSliceToContourLineMapper();
     contourMapper->setSliceFilter(sliceFilter);
+    streamlineMapper = new HorizontalSliceToStreamlineMapper();
+    streamlineMapper->setDataSource(dataSource);
 
     // Initialize rendering modules.
     sliceRenderer = new HorizontalSliceRenderer();
     sliceRenderer->setMapper(sliceMapper);
-    contourRenderer = new HorizontalContourLinesRenderer();
-    contourRenderer->setMapper(contourMapper);
+    // contourRenderer = new HorizontalContourLinesRenderer();
+    // contourRenderer->setMapper(contourMapper);
     bboxRenderer = new DataVolumeBoundingBoxRenderer();
+    streamlineRenderer = new HorizontalStreamlineRenderer();
+    streamlineRenderer->setMapper(streamlineMapper);
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &OpenGLDisplayWidget::nextTimestamp);
+    timer->start(50);
 }

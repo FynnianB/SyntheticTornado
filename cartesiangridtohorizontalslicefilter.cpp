@@ -27,12 +27,12 @@ std::vector<float> CartesianGridToHorizontalSliceFilter::getFilteredSlice() cons
     std::vector<float> sliceData;
     if (!dataSource) return sliceData;
 
-    for (int j = 0; j < sizeY; ++j) {
-        for (int i = 0; i < sizeX; ++i) {
+    for (int iy = 0; iy < sizeY; ++iy) {
+        for (int ix = 0; ix < sizeX; ++ix) {
             if (windComponent == 3) {
-                sliceData.push_back(dataSource->calculateMagnitude(sliceIndex, j, i));
+                sliceData.push_back(dataSource->calculateMagnitude(sliceIndex, iy, ix));
             } else {
-                sliceData.push_back(dataSource->getDataValue(sliceIndex, j, i, windComponent));
+                sliceData.push_back(dataSource->getDataValue(sliceIndex, iy, ix, windComponent));
             }
         }
     }
