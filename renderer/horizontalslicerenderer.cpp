@@ -43,7 +43,7 @@ void HorizontalSliceRenderer::setMapper(HorizontalSliceToImageMapper *mapper)
 void HorizontalSliceRenderer::initOpenGLShaders()
 {
     if (!shaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex,
-                                               ":/texture_vshader.glsl"))
+                                               ":/shader/texture_vshader.glsl"))
     {
         std::cout << "Vertex shader error:\n"
                   << shaderProgram.log().toStdString() << "\n" << std::flush;
@@ -51,7 +51,7 @@ void HorizontalSliceRenderer::initOpenGLShaders()
     }
 
     if (!shaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment,
-                                               ":/texture_fshader.glsl"))
+                                               ":/shader/texture_fshader.glsl"))
     {
         std::cout << "Fragment shader error:\n"
                   << shaderProgram.log().toStdString() << "\n" << std::flush;
@@ -72,10 +72,10 @@ void HorizontalSliceRenderer::initImageGeometry(int currentSlice)
     // Vertices of a unit cube that represents the bounding box.
     const float vertices[] = {
         // Positionen          // Texturkoordinaten
-        0.0f, fz, 0.0f,       0.0f, 0.0f, // links unten
-        1.0f, fz, 0.0f,       1.0f, 0.0f, // rechts unten
-        1.0f, fz, 1.0f,       1.0f, 1.0f, // rechts oben
-        0.0f, fz, 1.0f,       0.0f, 1.0f,  // links oben
+        1.0f, fz, 1.0f,       0.0f, 0.0f, // links unten
+        0.0f, fz, 1.0f,       1.0f, 0.0f, // rechts unten
+        0.0f, fz, 0.0f,       1.0f, 1.0f, // rechts oben
+        1.0f, fz, 0.0f,       0.0f, 1.0f,  // links oben
     };
 
     // Create vertex buffer and upload vertex data to buffer.

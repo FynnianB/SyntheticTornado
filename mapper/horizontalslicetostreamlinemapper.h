@@ -1,8 +1,8 @@
 #ifndef HORIZONTALSLICETOSTREAMLINEMAPPER_H
 #define HORIZONTALSLICETOSTREAMLINEMAPPER_H
 
-#include "cartesiangridtohorizontalslicefilter.h"
-#include "flowdatasource.h"
+#include "../filter/cartesiangridtohorizontalslicefilter.h"
+#include "../source/flowdatasource.h"
 #include <QVector>
 #include <QVector3D>
 #include <vector>

@@ -1,7 +1,7 @@
 #ifndef HORIZONTALSLICETOCONTOURLINEMAPPER_H
 #define HORIZONTALSLICETOCONTOURLINEMAPPER_H
 
-#include "cartesiangridtohorizontalslicefilter.h"
+#include "../filter/cartesiangridtohorizontalslicefilter.h"
 #include <QVector>
 #include <QVector3D>
 #include <vector>

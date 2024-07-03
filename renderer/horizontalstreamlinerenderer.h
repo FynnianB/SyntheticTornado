@@ -1,7 +1,7 @@
 #ifndef HORIZONTALSTREAMLINERENDERER_H
 #define HORIZONTALSTREAMLINERENDERER_H
 
-#include "horizontalslicetostreamlinemapper.h"
+#include "../mapper/horizontalslicetostreamlinemapper.h"
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>
@@ -18,7 +18,7 @@ public:
 
     void setMapper(HorizontalSliceToStreamlineMapper *mapper);
     void drawStreamlines(QMatrix4x4 mvpMatrix);
-    void updateLines();
+    void updateLines(bool evenlySpacedStreamlines);
 
 private:
     void initOpenGLShaders();

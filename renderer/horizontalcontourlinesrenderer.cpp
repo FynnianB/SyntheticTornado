@@ -60,13 +60,13 @@ void HorizontalContourLinesRenderer::drawContourLines(QMatrix4x4 mvpMatrix)
 
 void HorizontalContourLinesRenderer::initOpenGLShaders()
 {
-    if (!shaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/simple_vshader.glsl"))
+    if (!shaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shader/simple_vshader.glsl"))
     {
         std::cout << "Vertex shader error:\n" << shaderProgram.log().toStdString() << "\n" << std::flush;
         return;
     }
 
-    if (!shaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/simple_fshader.glsl"))
+    if (!shaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shader/simple_fshader.glsl"))
     {
         std::cout << "Fragment shader error:\n" << shaderProgram.log().toStdString() << "\n" << std::flush;
         return;

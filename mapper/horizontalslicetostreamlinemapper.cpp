@@ -120,10 +120,11 @@ bool HorizontalSliceToStreamlineMapper::isTooCloseToOtherStreamlines(const QVect
 QVector3D HorizontalSliceToStreamlineMapper::findNextSeedPoint(float dSep)
 {
     int size = 10;
+    int ySize = 50;
     for (int z = 1; z <= size; ++z) {
-        for (int y = 1; y <= size; ++y) {
+        for (int y = 1; y <= ySize; ++y) {
             for (int x = 1; x <= size; ++x) {
-                QVector3D point(float(z) / size, float(y) / size, float(x) / size);
+                QVector3D point(float(z) / size, float(y) / ySize, float(x) / size);
                 if (!isTooCloseToOtherStreamlines(point, dSep)) {
                     return point;
                 }

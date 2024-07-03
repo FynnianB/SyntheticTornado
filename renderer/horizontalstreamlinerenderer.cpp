@@ -16,25 +16,27 @@ HorizontalStreamlineRenderer::~HorizontalStreamlineRenderer()
 void HorizontalStreamlineRenderer::setMapper(HorizontalSliceToStreamlineMapper *mapper)
 {
     sliceMapper = mapper;
-    updateLines();
+    updateLines(false);
 }
 
-void HorizontalStreamlineRenderer::updateLines()
+void HorizontalStreamlineRenderer::updateLines(bool evenlySpacedStreamlines)
 {
-    // Grid Streamlines
-    lines = QVector<QVector<QVector3D>>();
-    float size = 10.0f;
-    float ySize = 50.0f;
-    for (int iz = 0; iz <= size; ++iz) {
-        for (int iy = 0; iy <= ySize; ++iy) {
-            for (int ix = 0; ix <= size; ++ix) {
-                lines.append(sliceMapper->mapSliceToStreamlines(QVector3D(iz/size, iy/ySize, ix/size), 0.1f, 48));
+    if (evenlySpacedStreamlines) {
+        // Even-Spaced-Streamlines (too-slow for animation)
+        lines = sliceMapper->generateEvenlySpacedStreamlines(0.3f, 64, 0.1f, 0.1f);
+    } else {
+        // Grid Streamlines
+        lines = QVector<QVector<QVector3D>>();
+        float size = 10.0f;
+        float ySize = 50.0f;
+        for (int iz = 0; iz <= size; ++iz) {
+            for (int iy = 0; iy <= ySize; ++iy) {
+                for (int ix = 0; ix <= size; ++ix) {
+                    lines.append(sliceMapper->mapSliceToStreamlines(QVector3D(iz/size, iy/ySize, ix/size), 0.1f, 48));
+                }
             }
         }
     }
-
-    // Even-Spaced-Streamlines (too-slow for animation)
-    // lines = sliceMapper->generateEvenlySpacedStreamlines(0.3f, 64, 0.1f, 0.1f);
 
     initGeometry();
 }
@@ -126,13 +128,13 @@ void HorizontalStreamlineRenderer::drawStreamlines(QMatrix4x4 mvpMatrix)
 
 void HorizontalStreamlineRenderer::initOpenGLShaders()
 {
-    if (!shaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/streamlines_vshader.glsl"))
+    if (!shaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex, ":/shader/streamlines_vshader.glsl"))
     {
         std::cout << "Vertex shader error:\n" << shaderProgram.log().toStdString() << "\n" << std::flush;
         return;
     }
 
-    if (!shaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/streamlines_fshader.glsl"))
+    if (!shaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment, ":/shader/streamlines_fshader.glsl"))
     {
         std::cout << "Fragment shader error:\n" << shaderProgram.log().toStdString() << "\n" << std::flush;
         return;

@@ -1,7 +1,7 @@
 #ifndef CARTESIANGRIDTOHORIZONTALSLICEFILTER_H
 #define CARTESIANGRIDTOHORIZONTALSLICEFILTER_H
 
-#include "flowdatasource.h"
+#include "../source/flowdatasource.h"
 
 class CartesianGridToHorizontalSliceFilter
 {

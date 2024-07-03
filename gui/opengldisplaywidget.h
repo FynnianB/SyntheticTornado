@@ -3,15 +3,15 @@
 
 #include <QOpenGLWidget>
 #include <QTimer>
-#include "datavolumeboundingboxrenderer.h"
-#include "flowdatasource.h"
-#include "cartesiangridtohorizontalslicefilter.h"
-#include "horizontalslicetoimagemapper.h"
-#include "horizontalslicerenderer.h"
-#include "horizontalslicetocontourlinemapper.h"
-#include "horizontalcontourlinesrenderer.h"
-#include "horizontalslicetostreamlinemapper.h"
-#include "horizontalstreamlinerenderer.h"
+#include "../renderer/datavolumeboundingboxrenderer.h"
+#include "../source/flowdatasource.h"
+#include "../filter/cartesiangridtohorizontalslicefilter.h"
+#include "../mapper/horizontalslicetoimagemapper.h"
+#include "../renderer/horizontalslicerenderer.h"
+#include "../mapper/horizontalslicetocontourlinemapper.h"
+#include "../renderer/horizontalcontourlinesrenderer.h"
+#include "../mapper/horizontalslicetostreamlinemapper.h"
+#include "../renderer/horizontalstreamlinerenderer.h"
 
 
 class OpenGLDisplayWidget : public QOpenGLWidget
@@ -70,13 +70,21 @@ private:
     // rendering etc. modules and connect them).
     void initVisualizationPipeline();
 
+
+    // VIISUALIZATION MANAGEMENT:
+    // ==========================
+
     int currentSlice;
     void moveSlice(int steps);
     int currentWindComponent;
     void changeWindComponent(int ic);
     int timestamp;
     void updateTimestamp(int time);
-    void nextTimestamp();
+
+    int animationDirection;
+    bool showStreamlines;
+    bool evenlySpacedStreamlines;
+    void animate();
 };
 
 #endif // OPENGLDISPLAYWIDGET_H

@@ -44,7 +44,7 @@ void DataVolumeBoundingBoxRenderer::drawBoundingBox(QMatrix4x4 mvpMatrix)
 void DataVolumeBoundingBoxRenderer::initOpenGLShaders()
 {
     if (!shaderProgram.addShaderFromSourceFile(QOpenGLShader::Vertex,
-                                               ":/lines_vshader.glsl"))
+                                               ":/shader/lines_vshader.glsl"))
     {
         std::cout << "Vertex shader error:\n"
                   << shaderProgram.log().toStdString() << "\n" << std::flush;
@@ -52,7 +52,7 @@ void DataVolumeBoundingBoxRenderer::initOpenGLShaders()
     }
 
     if (!shaderProgram.addShaderFromSourceFile(QOpenGLShader::Fragment,
-                                               ":/lines_fshader.glsl"))
+                                               ":/shader/lines_fshader.glsl"))
     {
         std::cout << "Fragment shader error:\n"
                   << shaderProgram.log().toStdString() << "\n" << std::flush;

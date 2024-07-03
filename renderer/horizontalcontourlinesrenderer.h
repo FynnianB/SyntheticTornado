@@ -1,7 +1,7 @@
 #ifndef HORIZONTALCONTOURLINESRENDERER_H
 #define HORIZONTALCONTOURLINESRENDERER_H
 
-#include "horizontalslicetocontourlinemapper.h"
+#include "../mapper/horizontalslicetocontourlinemapper.h"
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>

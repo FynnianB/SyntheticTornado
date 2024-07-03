@@ -1,12 +1,12 @@
 <RCC>
     <qresource prefix="/">
-        <file>lines_fshader.glsl</file>
-        <file>lines_vshader.glsl</file>
-        <file>texture_fshader.glsl</file>
-        <file>texture_vshader.glsl</file>
-        <file>simple_fshader.glsl</file>
-        <file>simple_vshader.glsl</file>
-        <file>streamlines_vshader.glsl</file>
-        <file>streamlines_fshader.glsl</file>
+        <file>shader/lines_fshader.glsl</file>
+        <file>shader/lines_vshader.glsl</file>
+        <file>shader/texture_fshader.glsl</file>
+        <file>shader/texture_vshader.glsl</file>
+        <file>shader/simple_fshader.glsl</file>
+        <file>shader/simple_vshader.glsl</file>
+        <file>shader/streamlines_vshader.glsl</file>
+        <file>shader/streamlines_fshader.glsl</file>
     </qresource>
 </RCC>

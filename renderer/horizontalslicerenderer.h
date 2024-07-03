@@ -1,7 +1,7 @@
 #ifndef HORIZONTALSLICERENDERER_H
 #define HORIZONTALSLICERENDERER_H
 
-#include "horizontalslicetoimagemapper.h"
+#include "../mapper/horizontalslicetoimagemapper.h"
 #include <QOpenGLShaderProgram>
 #include <QOpenGLBuffer>
 #include <QOpenGLVertexArrayObject>

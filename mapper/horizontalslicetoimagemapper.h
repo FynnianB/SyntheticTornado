@@ -3,7 +3,7 @@
 
 #include <QOpenGLWidget>
 #include <vector>
-#include "cartesiangridtohorizontalslicefilter.h"
+#include "../filter/cartesiangridtohorizontalslicefilter.h"
 
 class HorizontalSliceToImageMapper
 {

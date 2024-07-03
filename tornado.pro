@@ -24,32 +24,32 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
-    cartesiangridtohorizontalslicefilter.cpp \
-    flowdatasource.cpp \
-    horizontalcontourlinesrenderer.cpp \
-    horizontalslicerenderer.cpp \
-    horizontalslicetocontourlinemapper.cpp \
-    horizontalslicetoimagemapper.cpp \
-    horizontalslicetostreamlinemapper.cpp \
-    horizontalstreamlinerenderer.cpp \
+    filter/cartesiangridtohorizontalslicefilter.cpp \
+    source/flowdatasource.cpp \
+    renderer/horizontalcontourlinesrenderer.cpp \
+    renderer/horizontalslicerenderer.cpp \
+    mapper/horizontalslicetocontourlinemapper.cpp \
+    mapper/horizontalslicetoimagemapper.cpp \
+    mapper/horizontalslicetostreamlinemapper.cpp \
+    renderer/horizontalstreamlinerenderer.cpp \
     main.cpp \
-    mainwindow.cpp \
-    opengldisplaywidget.cpp \
-    datavolumeboundingboxrenderer.cpp
+    gui/mainwindow.cpp \
+    gui/opengldisplaywidget.cpp \
+    renderer/datavolumeboundingboxrenderer.cpp
 
 HEADERS += \
-    cartesiangridtohorizontalslicefilter.h \
-    flowdatasource.h \
-    horizontalcontourlinesrenderer.h \
-    horizontalslicerenderer.h \
-    horizontalslicetocontourlinemapper.h \
-    horizontalslicetoimagemapper.h \
-    horizontalslicetostreamlinemapper.h \
-    horizontalstreamlinerenderer.h \
-    mainwindow.h \
-    opengldisplaywidget.h \
-    datavolumeboundingboxrenderer.h \
-    tornadoSrc.h
+    filter/cartesiangridtohorizontalslicefilter.h \
+    source/flowdatasource.h \
+    renderer/horizontalcontourlinesrenderer.h \
+    renderer/horizontalslicerenderer.h \
+    mapper/horizontalslicetocontourlinemapper.h \
+    mapper/horizontalslicetoimagemapper.h \
+    mapper/horizontalslicetostreamlinemapper.h \
+    renderer/horizontalstreamlinerenderer.h \
+    gui/mainwindow.h \
+    gui/opengldisplaywidget.h \
+    renderer/datavolumeboundingboxrenderer.h \
+    source/tornadoSrc.h
 
 RESOURCES += \
     Shaders.qrc

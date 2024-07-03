@@ -10,7 +10,10 @@ OpenGLDisplayWidget::OpenGLDisplayWidget(QWidget *parent)
     : QOpenGLWidget(parent),
       distanceToCamera(-8.0),
       currentSlice(0),
-      timestamp(0)
+      timestamp(0),
+      animationDirection(1),
+      showStreamlines(true),
+      evenlySpacedStreamlines(false)
 {
     setFocusPolicy(Qt::StrongFocus);
 }
@@ -71,6 +74,10 @@ void OpenGLDisplayWidget::initializeGL()
 
     // Our own initialization of the visualization pipeline.
     initVisualizationPipeline();
+
+    QTimer *timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &OpenGLDisplayWidget::animate);
+    timer->start(50);
 }
 
 
@@ -98,7 +105,9 @@ void OpenGLDisplayWidget::paintGL()
     bboxRenderer->drawBoundingBox(mvpMatrix);
     sliceRenderer->drawImage(mvpMatrix);
     contourRenderer->drawContourLines(mvpMatrix);
-    streamlineRenderer->drawStreamlines(mvpMatrix);
+    if (showStreamlines) {
+        streamlineRenderer->drawStreamlines(mvpMatrix);
+    }
 }
 
 
@@ -185,11 +194,28 @@ void OpenGLDisplayWidget::keyPressEvent(QKeyEvent *e)
     }
     else if (e->key() == Qt::Key_C)
     {
-        updateTimestamp(timestamp - 1);
+        animationDirection = -1;
     }
     else if (e->key() == Qt::Key_V)
     {
-        updateTimestamp(timestamp + 1);
+        animationDirection = 1;
+    }
+    else if (e->key() == Qt::Key_Space)
+    {
+        animationDirection = 0;
+    }
+    else if (e->key() == Qt::Key_Space)
+    {
+        animationDirection = 0;
+    }
+    else if (e->key() == Qt::Key_S)
+    {
+        showStreamlines = !showStreamlines;
+    }
+    else if (e->key() == Qt::Key_E)
+    {
+        evenlySpacedStreamlines = !evenlySpacedStreamlines;
+        streamlineRenderer->updateLines(evenlySpacedStreamlines);
     }
     else
     {
@@ -226,6 +252,7 @@ void OpenGLDisplayWidget::moveSlice(int steps)
         sliceRenderer->updateImage();
         sliceRenderer->initImageGeometry(currentSlice);
         contourRenderer->updateLines();
+        update();
     }
 }
 
@@ -236,6 +263,7 @@ void OpenGLDisplayWidget::changeWindComponent(int ic)
         sliceFilter->setWindComponent(currentWindComponent);
         sliceRenderer->updateImage();
         contourRenderer->updateLines();
+        update();
     }
 }
 
@@ -245,13 +273,16 @@ void OpenGLDisplayWidget::updateTimestamp(int time)
     dataSource->createData(timestamp);
     sliceRenderer->updateImage();
     contourRenderer->updateLines();
-    streamlineRenderer->updateLines();
+    streamlineRenderer->updateLines(evenlySpacedStreamlines);
     update();
 }
 
-void OpenGLDisplayWidget::nextTimestamp()
+void OpenGLDisplayWidget::animate()
 {
-    updateTimestamp(timestamp + 1);
+    if (animationDirection == 0) return;
+    if (evenlySpacedStreamlines) return;
+
+    updateTimestamp(timestamp + animationDirection);
 }
 
 
@@ -285,8 +316,4 @@ void OpenGLDisplayWidget::initVisualizationPipeline()
     bboxRenderer = new DataVolumeBoundingBoxRenderer();
     streamlineRenderer = new HorizontalStreamlineRenderer();
     streamlineRenderer->setMapper(streamlineMapper);
-
-    QTimer *timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &OpenGLDisplayWidget::nextTimestamp);
-    timer->start(50);
 }
