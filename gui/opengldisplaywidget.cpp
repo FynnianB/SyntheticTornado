@@ -204,10 +204,6 @@ void OpenGLDisplayWidget::keyPressEvent(QKeyEvent *e)
     {
         animationDirection = 0;
     }
-    else if (e->key() == Qt::Key_Space)
-    {
-        animationDirection = 0;
-    }
     else if (e->key() == Qt::Key_S)
     {
         showStreamlines = !showStreamlines;
