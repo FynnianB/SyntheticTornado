@@ -16,6 +16,8 @@ public:
 private:
     CartesianGridToHorizontalSliceFilter *sliceFilter;
 
+    QColor viridisColourMap(float value);
+
 };
 
 #endif // HORIZONTALSLICETOIMAGEMAPPER_H
