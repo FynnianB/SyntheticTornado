@@ -97,7 +97,7 @@ void OpenGLDisplayWidget::paintGL()
     // Call renderer modules.
     bboxRenderer->drawBoundingBox(mvpMatrix);
     sliceRenderer->drawImage(mvpMatrix);
-    // contourRenderer->drawContourLines(mvpMatrix);
+    contourRenderer->drawContourLines(mvpMatrix);
     streamlineRenderer->drawStreamlines(mvpMatrix);
 }
 
@@ -220,12 +220,12 @@ void OpenGLDisplayWidget::updateMVPMatrix()
 void OpenGLDisplayWidget::moveSlice(int steps)
 {
     int newSlice = currentSlice + steps;
-    if (newSlice >= 0 && newSlice < 16) {
+    if (newSlice >= 0 && newSlice <= 10) {
         currentSlice = newSlice;
         sliceFilter->setSlice(currentSlice);
         sliceRenderer->updateImage();
         sliceRenderer->initImageGeometry(currentSlice);
-        // contourRenderer->updateLines();
+        contourRenderer->updateLines();
     }
 }
 
@@ -235,7 +235,7 @@ void OpenGLDisplayWidget::changeWindComponent(int ic)
         currentWindComponent = ic;
         sliceFilter->setWindComponent(currentWindComponent);
         sliceRenderer->updateImage();
-        // contourRenderer->updateLines();
+        contourRenderer->updateLines();
     }
 }
 
@@ -244,7 +244,7 @@ void OpenGLDisplayWidget::updateTimestamp(int time)
     timestamp = time;
     dataSource->createData(timestamp);
     sliceRenderer->updateImage();
-    // contourRenderer->updateLines();
+    contourRenderer->updateLines();
     streamlineRenderer->updateLines();
     update();
 }
@@ -280,8 +280,8 @@ void OpenGLDisplayWidget::initVisualizationPipeline()
     // Initialize rendering modules.
     sliceRenderer = new HorizontalSliceRenderer();
     sliceRenderer->setMapper(sliceMapper);
-    // contourRenderer = new HorizontalContourLinesRenderer();
-    // contourRenderer->setMapper(contourMapper);
+    contourRenderer = new HorizontalContourLinesRenderer();
+    contourRenderer->setMapper(contourMapper);
     bboxRenderer = new DataVolumeBoundingBoxRenderer();
     streamlineRenderer = new HorizontalStreamlineRenderer();
     streamlineRenderer->setMapper(streamlineMapper);

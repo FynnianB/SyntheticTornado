@@ -23,6 +23,7 @@ public:
 private:
     void initOpenGLShaders();
     void initGeometry();
+    QVector<QVector3D> calculateNormals(const QVector<QVector3D>& streamline);
 
     HorizontalSliceToStreamlineMapper *sliceMapper;
 

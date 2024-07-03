@@ -13,18 +13,20 @@ public:
     HorizontalSliceToStreamlineMapper();
 
     void setDataSource(FlowDataSource *dataSource);
-    void setSliceFilter(CartesianGridToHorizontalSliceFilter *filter);
     QVector<QVector3D> mapSliceToStreamlines(const QVector3D &startPoint, float stepSize, int maxSteps);
+    QVector<QVector<QVector3D>> generateEvenlySpacedStreamlines(float stepSize, int maxSteps, float dSep, float dTest);
 
 private:
-    CartesianGridToHorizontalSliceFilter *sliceFilter;
     FlowDataSource *dataSource;
-    int sizeX, sizeY;
+    int sizeX, sizeY, sizeZ;
+    QVector<QVector<QVector3D>> streamlines;
 
     QVector3D computeVelocityAtPoint(const QVector3D &point);
     QVector3D eulerIntegration(const QVector3D &currentPoint, float stepSize);
     QVector3D rungeKuttaIntegration(const QVector3D &currentPoint, float stepSize);
     float interpolate(float value1, float value2, float alpha);
+    bool isTooCloseToOtherStreamlines(const QVector3D &point, float dTest);
+    QVector3D findNextSeedPoint(float dSep);
 };
 
 #endif // HORIZONTALSLICETOSTREAMLINEMAPPER_H

@@ -38,7 +38,7 @@ QVector<QVector3D> HorizontalSliceToContourLineMapper::mapSliceToContourLineSegm
                 int caseIndex = getCaseIndex(topLeft, topRight, bottomRight, bottomLeft);
 
                 float step = 1.0f / (width-1);
-                float fz = sliceIndex / 15.0f + 0.003f;
+                float fz = sliceIndex*0.1f + 0.003f;
                 QVector3D vTL(x*step, fz, y*step);
                 QVector3D vTR((x+1)*step, fz, y*step);
                 QVector3D vBR((x+1)*step, fz, (y+1)*step);
